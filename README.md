@@ -16,8 +16,3 @@ A lightweight, customizable two-team scorekeeper built for GitHub Pages.
 - Responsive mobile and desktop design
 - Native full-screen button with Home Screen installation fallback
 
-## Publish on GitHub Pages
-
-In the repository settings, open **Pages**, choose **Deploy from a branch**, select the `main` branch and `/ (root)`, then save.
-
-No build step or dependencies are required.
