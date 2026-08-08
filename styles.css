@@ -126,16 +126,16 @@ button { cursor: pointer; }
   top: 50%;
   left: 50%;
   display: grid;
-  width: 4.8rem;
-  height: 4.8rem;
+  width: 3.15rem;
+  height: 3.15rem;
   border: 0;
   border-radius: 50%;
   place-items: center;
   transform: translate(-50%, -50%);
   background: var(--ink);
-  box-shadow: 0 8px 24px rgb(0 0 0 / .12);
+  box-shadow: 0 4px 12px rgb(0 0 0 / .12);
   color: #151515;
-  font-size: 2.35rem;
+  font-size: 1.7rem;
   line-height: 1;
 }
 
@@ -243,8 +243,6 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
 .install-dialog li + li { margin-top: .45rem; }
 .dialog-close { position: absolute; top: 1rem; right: 1rem; width: 2.6rem; height: 2.6rem; border: 0; border-radius: 50%; background: #e7e3dc; font-size: 1.7rem; }
 .app-icon { display: grid; width: 3.5rem; height: 3.5rem; margin-bottom: 1rem; border-radius: 1rem; place-items: center; background: #171717; color: white; font-size: 2rem; }
-.install-done { width: 100%; }
-
 .color-grid-dialog { width: min(38rem, calc(100% - 1.5rem)); border: 0; border-radius: 1.5rem; padding: 1.25rem; background: #242424; box-shadow: 0 30px 90px rgb(0 0 0 / .55); color: white; }
 .color-grid-dialog::backdrop { background: rgb(0 0 0 / .65); backdrop-filter: blur(8px); }
 .color-grid-header { position: relative; display: flex; min-height: 3.5rem; margin-bottom: 1rem; align-items: center; justify-content: space-between; }

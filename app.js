@@ -268,7 +268,6 @@ document.addEventListener("fullscreenchange", () => {
 });
 
 $("#close-install").addEventListener("click", () => $("#install-dialog").close());
-$("#install-done").addEventListener("click", () => $("#install-dialog").close());
 $("#close-settings").addEventListener("click", closeSettings);
 $("#done-settings").addEventListener("click", () => {
   applyForm();
