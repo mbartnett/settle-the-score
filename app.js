@@ -135,6 +135,7 @@ function buildColorGrid() {
     choice.type = "button";
     choice.className = "color-choice";
     choice.style.backgroundColor = color;
+    choice.style.color = color;
     choice.setAttribute("aria-label", `Choose ${color}`);
     choice.addEventListener("click", () => {
       setColorButton(activeColorButton, color);
