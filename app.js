@@ -11,8 +11,8 @@ const fontStacks = {
   system: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   rounded: 'ui-rounded, "SF Pro Rounded", "Avenir Next", system-ui, sans-serif',
   mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace',
-  gotham: '"Gotham", "Avenir Next", system-ui, sans-serif',
-  metal: '"Darkhorn", Impact, Haettenschweiler, fantasy',
+  gothamBlack: '"Gotham Black", "Arial Black", sans-serif',
+  gothamUltra: '"Gotham Ultra", "Arial Black", sans-serif',
   hollowe: '"Hollowe Genesis", Impact, fantasy',
   sounder: '"Sounder", Impact, fantasy',
   violent: '"Violent Brave", Impact, fantasy',
@@ -38,6 +38,8 @@ let state = saved && Array.isArray(saved.teams)
   ? { ...freshDefaults(), ...saved }
   : freshDefaults();
 state.teams = defaults.teams.map((fallback, index) => ({ ...fallback, ...(state.teams[index] || {}) }));
+if (state.font === "gotham") state.font = "gothamBlack";
+if (state.font === "metal") state.font = "hollowe";
 if (saved?.teams?.[0]?.color === "#ff3b45" && saved?.teams?.[1]?.color === "#1188ef") {
   state.teams[0].color = defaults.teams[0].color;
   state.teams[0].textColor = defaults.teams[0].textColor;
@@ -68,8 +70,7 @@ function render() {
   document.documentElement.style.setProperty("--team-one-text", state.teams[0].textColor);
   document.documentElement.style.setProperty("--team-two-text", state.teams[1].textColor);
   document.documentElement.style.setProperty("--font", fontStacks[state.font]);
-  scoreboard.classList.toggle("font-metal", state.font === "metal");
-  scoreboard.classList.toggle("font-extreme", ["metal", "hollowe", "sounder", "violent", "midnight", "zeus"].includes(state.font));
+  scoreboard.classList.toggle("font-extreme", ["hollowe", "sounder", "violent", "midnight", "zeus"].includes(state.font));
   document.querySelector('meta[name="theme-color"]').content = state.teams[0].color;
   save();
 }

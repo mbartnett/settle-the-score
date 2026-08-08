@@ -1,22 +1,16 @@
 @font-face {
-  font-family: "Darkhorn";
-  src: url("assets/fonts/Darkhorn.otf") format("opentype");
+  font-family: "Gotham Black";
+  src: url("assets/fonts/Gotham-Black.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400 900;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Gotham";
-  src: url("assets/fonts/Gotham-Regular.otf") format("opentype");
+  font-family: "Gotham Ultra";
+  src: url("assets/fonts/Gotham-Ultra.otf") format("opentype");
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Gotham";
-  src: url("assets/fonts/Gotham-Bold.otf") format("opentype");
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 400 900;
   font-display: swap;
 }
 
@@ -262,13 +256,6 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
 .color-choice:hover, .color-choice:focus-visible { position: relative; z-index: 1; outline: 3px solid white; outline-offset: -3px; }
 
 :fullscreen .scoreboard { min-height: 100vh; }
-
-.font-metal .team-name {
-  font-family: "Darkhorn", Impact, Haettenschweiler, fantasy;
-  letter-spacing: .035em;
-  text-transform: uppercase;
-  text-shadow: .035em .05em 0 rgb(0 0 0 / .65);
-}
 
 .font-extreme .team {
   row-gap: clamp(2.5rem, 7vh, 7rem);
