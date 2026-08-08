@@ -20,9 +20,24 @@ const fontStacks = {
   metal: '"Darkhorn", Impact, Haettenschweiler, fantasy'
 };
 
-const saved = JSON.parse(localStorage.getItem("split-score-settings") || "null");
-let state = saved ? { ...defaults, ...saved, teams: saved.teams || defaults.teams } : structuredClone(defaults);
-state.teams = state.teams.map((team, index) => ({ ...defaults.teams[index], ...team }));
+function freshDefaults() {
+  return {
+    ...defaults,
+    teams: defaults.teams.map((team) => ({ ...team }))
+  };
+}
+
+let saved = null;
+try {
+  saved = JSON.parse(localStorage.getItem("split-score-settings") || "null");
+} catch (error) {
+  localStorage.removeItem("split-score-settings");
+}
+
+let state = saved && Array.isArray(saved.teams)
+  ? { ...freshDefaults(), ...saved }
+  : freshDefaults();
+state.teams = defaults.teams.map((fallback, index) => ({ ...fallback, ...(state.teams[index] || {}) }));
 
 const $ = (selector) => document.querySelector(selector);
 const scoreboard = $("#scoreboard");
@@ -181,7 +196,7 @@ $("#done-settings").addEventListener("click", () => {
 });
 
 $("#restore-defaults").addEventListener("click", () => {
-  state = structuredClone(defaults);
+  state = freshDefaults();
   syncForm();
   render();
   showToast("Defaults restored");
