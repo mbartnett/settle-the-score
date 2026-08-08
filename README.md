@@ -5,10 +5,8 @@ A lightweight, customizable two-team scorekeeper built for GitHub Pages.
 ## Features
 
 - Tap either score to add a point
-- Plus/minus controls for both teams
 - Editable team names and colors
-- Six curated font styles, including Death Metal
-- “Make it Metal” instant theme
+- Seven curated font styles, including Darkhorn Death Metal and Gotham-like Montserrat
 - Swipe up to add or down to subtract
 - Preset color swatches plus full color pickers
 - Automatic, stacked, or side-by-side layout

@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "Darkhorn";
+  src: url("assets/fonts/Darkhorn.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("assets/fonts/Montserrat.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   --team-one: #ff3b45;
   --team-two: #1188ef;
@@ -46,21 +60,6 @@ button { cursor: pointer; }
 .team-one { background: var(--team-one); }
 .team-two { background: var(--team-two); }
 
-.swipe-hint {
-  position: absolute;
-  top: max(1.25rem, env(safe-area-inset-top));
-  left: 50%;
-  padding: .45rem .75rem;
-  border-radius: 999px;
-  transform: translateX(-50%);
-  background: rgb(0 0 0 / .11);
-  font-size: .72rem;
-  font-weight: 750;
-  letter-spacing: .03em;
-  opacity: .72;
-  white-space: nowrap;
-}
-
 .team-name {
   max-width: 42vw;
   margin: 0 0 clamp(.5rem, 3vh, 2rem);
@@ -86,32 +85,6 @@ button { cursor: pointer; }
 
 .score:active { transform: scale(.985); }
 
-.score-actions {
-  position: absolute;
-  bottom: max(2rem, env(safe-area-inset-bottom));
-  display: flex;
-  gap: .6rem;
-  opacity: 0;
-  transform: translateY(.4rem);
-  transition: opacity 160ms ease, transform 160ms ease;
-}
-
-.team:hover .score-actions,
-.team:focus-within .score-actions {
-  opacity: 1;
-  transform: none;
-}
-
-.score-actions button {
-  width: 3rem;
-  height: 3rem;
-  border: 1px solid rgb(255 255 255 / .55);
-  border-radius: 999px;
-  background: rgb(0 0 0 / .14);
-  color: white;
-  font-size: 1.6rem;
-}
-
 .reset-button {
   position: absolute;
   z-index: 4;
@@ -134,8 +107,8 @@ button { cursor: pointer; }
 .utility-bar {
   position: absolute;
   z-index: 5;
-  top: max(1rem, env(safe-area-inset-top));
-  right: max(1rem, env(safe-area-inset-right));
+  top: max(.75rem, env(safe-area-inset-top));
+  right: max(.75rem, env(safe-area-inset-right));
   display: flex;
   gap: .25rem;
 }
@@ -210,10 +183,6 @@ fieldset { margin: 1rem 0 0; padding: 0; border: 0; }
 .compact-setting { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .compact-setting h2 { margin-bottom: .2rem; }
 .compact-setting p { margin: 0; color: #6d6961; font-size: .85rem; }
-.metal-callout { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .3rem; padding: 1rem; border-radius: 1rem; background: #171717; color: white; }
-.metal-callout h2 { margin: .25rem 0 0; font-size: 1rem; }
-.metal-callout .eyebrow { color: #e65353; }
-.metal-callout button { flex: 0 0 auto; border: 1px solid #bf2828; border-radius: .75rem; padding: .75rem .9rem; background: #8f0e16; color: white; font-weight: 900; text-transform: uppercase; }
 .switch input { position: absolute; opacity: 0; }
 .switch span { display: block !important; width: 3.2rem; height: 1.9rem; margin: 0 !important; border-radius: 99px; background: #cbc7bf; padding: .2rem; transition: background 150ms; }
 .switch span::after { display: block; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: white; box-shadow: 0 1px 4px rgb(0 0 0 / .2); content: ""; transition: transform 150ms; }
@@ -225,16 +194,6 @@ fieldset { margin: 1rem 0 0; padding: 0; border: 0; }
 .primary-button { min-width: 7rem; border: 0; background: #171717; color: white; }
 .toast { position: fixed; z-index: 30; bottom: 1.25rem; left: 50%; padding: .7rem 1rem; border-radius: 999px; transform: translate(-50%, 1rem); background: #171717; color: white; opacity: 0; pointer-events: none; transition: 180ms; }
 .toast.show { transform: translate(-50%, 0); opacity: 1; }
-
-.metal-dialog { width: min(30rem, calc(100% - 2rem)); border: 1px solid #542025; border-radius: 1.5rem; padding: 1.6rem; background: #111; box-shadow: 0 30px 90px rgb(0 0 0 / .55); color: #f7eee6; text-align: center; }
-.metal-dialog::backdrop { background: rgb(0 0 0 / .72); backdrop-filter: blur(8px); }
-.metal-dialog h2 { margin: .35rem 0 .6rem; font-family: Impact, Haettenschweiler, fantasy; font-size: 2.7rem; letter-spacing: .04em; text-transform: uppercase; }
-.metal-dialog p:not(.eyebrow) { color: #c9beb7; line-height: 1.5; }
-.metal-dialog .eyebrow { color: #e34545; }
-.metal-mark { font-size: 3.5rem; }
-.dialog-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; margin-top: 1.25rem; }
-.dialog-actions button { height: 3.2rem; border-radius: .8rem; font-weight: 850; }
-.metal-confirm { border: 1px solid #d53a3a; background: #a30f19; color: white; text-transform: uppercase; }
 
 .install-dialog { position: relative; width: min(31rem, calc(100% - 2rem)); border: 0; border-radius: 1.5rem; padding: 1.75rem; background: var(--panel); box-shadow: 0 30px 90px rgb(0 0 0 / .45); color: var(--panel-ink); }
 .install-dialog::backdrop { background: rgb(0 0 0 / .62); backdrop-filter: blur(8px); }
@@ -249,11 +208,10 @@ fieldset { margin: 1rem 0 0; padding: 0; border: 0; }
 :fullscreen .scoreboard { min-height: 100vh; }
 
 .font-metal .team-name {
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", fantasy;
+  font-family: "Darkhorn", Impact, Haettenschweiler, fantasy;
   letter-spacing: .035em;
   text-transform: uppercase;
-  text-shadow: .04em .04em 0 #000, -.025em -.025em 0 rgb(0 0 0 / .55);
-  transform: skew(-3deg);
+  text-shadow: .035em .05em 0 rgb(0 0 0 / .65);
 }
 
 .layout-stacked { flex-direction: column; }
@@ -280,7 +238,6 @@ fieldset { margin: 1rem 0 0; padding: 0; border: 0; }
     background: transparent;
     font-size: 1.45rem;
   }
-  .team-two .swipe-hint { top: auto; bottom: max(1.25rem, env(safe-area-inset-bottom)); }
 }
 
 @media (max-width: 520px) {
@@ -289,16 +246,10 @@ fieldset { margin: 1rem 0 0; padding: 0; border: 0; }
   .settings-header, .settings-footer { padding-inline: 1.1rem; }
   .settings-content { padding-inline: 1.1rem; }
   .team-settings { grid-template-columns: 1fr 5rem; }
-  .metal-callout { align-items: stretch; flex-direction: column; }
-  .swipe-hint { display: none; }
 }
 
 @media (display-mode: fullscreen), (display-mode: standalone) {
   .utility-bar { top: max(1rem, env(safe-area-inset-top)); }
-}
-
-@media (hover: none) {
-  .score-actions { opacity: .75; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

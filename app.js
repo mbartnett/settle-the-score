@@ -11,10 +11,11 @@ const defaults = {
 const fontStacks = {
   system: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   rounded: 'ui-rounded, "SF Pro Rounded", "Avenir Next", system-ui, sans-serif',
+  gotham: '"Montserrat", "Avenir Next", "Century Gothic", system-ui, sans-serif',
   serif: 'Georgia, "Times New Roman", serif',
   mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace',
   condensed: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif',
-  metal: 'Impact, Haettenschweiler, "Arial Narrow Bold", fantasy'
+  metal: '"Darkhorn", Impact, Haettenschweiler, fantasy'
 };
 
 const palette = ["#ff3b45", "#1188ef", "#f39c12", "#8e44ad", "#16a085", "#ef6c35", "#e91e63", "#202124", "#f4f0e8", "#76000b"];
@@ -103,13 +104,6 @@ function applyForm() {
 
 $("#team-one-score").addEventListener("click", () => changeScore(0, 1));
 $("#team-two-score").addEventListener("click", () => changeScore(1, 1));
-document.querySelectorAll("[data-change]").forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.stopPropagation();
-    changeScore(Number(button.dataset.team), Number(button.dataset.change));
-  });
-});
-
 document.querySelectorAll(".swatches").forEach((container) => {
   palette.forEach((color) => {
     const button = document.createElement("button");
@@ -209,18 +203,6 @@ $("#restore-defaults").addEventListener("click", () => {
   syncForm();
   render();
   showToast("Defaults restored");
-});
-
-$("#metal-button").addEventListener("click", () => $("#metal-dialog").showModal());
-$("#cancel-metal").addEventListener("click", () => $("#metal-dialog").close());
-$("#confirm-metal").addEventListener("click", () => {
-  state.font = "metal";
-  state.teams[0].color = "#111111";
-  state.teams[1].color = "#76000b";
-  render();
-  syncForm();
-  $("#metal-dialog").close();
-  showToast("Metal mode unleashed");
 });
 
 modal.addEventListener("click", (event) => {
