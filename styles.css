@@ -15,6 +15,22 @@
 }
 
 @font-face {
+  font-family: "Gotham UI";
+  src: url("assets/fonts/Gotham-Book.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham UI";
+  src: url("assets/fonts/Gotham-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Hollowe Genesis";
   src: url("assets/fonts/HolloweGenesis.ttf") format("truetype");
   font-display: swap;
@@ -149,22 +165,30 @@ button { cursor: pointer; }
 }
 
 .utility-bar button {
+  display: grid;
   width: 3.4rem;
   height: 3.4rem;
   border: 0;
   border-radius: 999px;
+  padding: 0;
+  place-items: center;
   background: rgb(0 0 0 / .12);
   color: white;
   font-size: 1.9rem;
+  line-height: 1;
 }
 
 .settings-glyph {
-  display: block;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
   font-family: "Arial Unicode MS", "Noto Sans Symbols 2", Arial, sans-serif;
   font-variant-emoji: text;
   font-style: normal;
   font-weight: 400;
   line-height: 1;
+  transform: translateY(-.02em);
 }
 
 .modal-backdrop {
@@ -190,6 +214,7 @@ button { cursor: pointer; }
   background: var(--panel);
   box-shadow: 0 28px 80px rgb(0 0 0 / .32);
   color: var(--panel-ink);
+  font-family: "Gotham UI", "Avenir Next", system-ui, sans-serif;
 }
 
 .settings-header, .settings-footer {
@@ -235,7 +260,7 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
 .toast { position: fixed; z-index: 30; bottom: 1.25rem; left: 50%; padding: .7rem 1rem; border-radius: 999px; transform: translate(-50%, 1rem); background: #171717; color: white; opacity: 0; pointer-events: none; transition: 180ms; }
 .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-.install-dialog { position: relative; width: min(31rem, calc(100% - 2rem)); border: 0; border-radius: 1.5rem; padding: 1.75rem; background: var(--panel); box-shadow: 0 30px 90px rgb(0 0 0 / .45); color: var(--panel-ink); }
+.install-dialog { position: relative; width: min(31rem, calc(100% - 2rem)); border: 0; border-radius: 1.5rem; padding: 1.75rem; background: var(--panel); box-shadow: 0 30px 90px rgb(0 0 0 / .45); color: var(--panel-ink); font-family: "Gotham UI", "Avenir Next", system-ui, sans-serif; }
 .install-dialog::backdrop { background: rgb(0 0 0 / .62); backdrop-filter: blur(8px); }
 .install-dialog h2 { margin: .35rem 0 .7rem; font-size: 2rem; }
 .install-dialog p, .install-dialog li { color: #625e57; line-height: 1.5; }
@@ -243,7 +268,7 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
 .install-dialog li + li { margin-top: .45rem; }
 .dialog-close { position: absolute; top: 1rem; right: 1rem; width: 2.6rem; height: 2.6rem; border: 0; border-radius: 50%; background: #e7e3dc; font-size: 1.7rem; }
 .app-icon { display: grid; width: 3.5rem; height: 3.5rem; margin-bottom: 1rem; border-radius: 1rem; place-items: center; background: #171717; color: white; font-size: 2rem; }
-.color-grid-dialog { width: min(38rem, calc(100% - 1.5rem)); border: 0; border-radius: 1.5rem; padding: 1.25rem; background: #242424; box-shadow: 0 30px 90px rgb(0 0 0 / .55); color: white; }
+.color-grid-dialog { width: min(38rem, calc(100% - 1.5rem)); border: 0; border-radius: 1.5rem; padding: 1.25rem; background: #242424; box-shadow: 0 30px 90px rgb(0 0 0 / .55); color: white; font-family: "Gotham UI", "Avenir Next", system-ui, sans-serif; }
 .color-grid-dialog::backdrop { background: rgb(0 0 0 / .65); backdrop-filter: blur(8px); }
 .color-grid-header { position: relative; display: flex; min-height: 3.5rem; margin-bottom: 1rem; align-items: center; justify-content: space-between; }
 .color-grid-header h2 { margin: .2rem 0 0; font-size: 1.5rem; }
