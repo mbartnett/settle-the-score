@@ -32,6 +32,36 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Hollowe Genesis";
+  src: url("assets/fonts/HolloweGenesis.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sounder";
+  src: url("assets/fonts/Sounder.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Violent Brave";
+  src: url("assets/fonts/ViolentBrave-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Midnight Legacy";
+  src: url("assets/fonts/MidnightLegacy.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Zeus Borne";
+  src: url("assets/fonts/ZeusBorne.otf") format("opentype");
+  font-display: swap;
+}
+
 :root {
   --team-one: #ff3b45;
   --team-two: #1188ef;
@@ -146,6 +176,15 @@ button { cursor: pointer; }
   font-size: 1.9rem;
 }
 
+.settings-glyph {
+  display: block;
+  font-family: "Arial Unicode MS", "Noto Sans Symbols 2", Arial, sans-serif;
+  font-variant-emoji: text;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
 .modal-backdrop {
   position: fixed;
   z-index: 20;
@@ -195,20 +234,10 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
 .color-picker-button { width: 100%; height: 3.25rem; border: .3rem solid white; border-radius: .85rem; padding: 0; box-shadow: 0 0 0 1px #d3cfc7; }
 .color-picker-button:focus-visible { outline: 3px solid #151515; outline-offset: 2px; }
 .text-color-field select { padding-inline: .55rem; }
-.font-preview {
-  margin-top: .65rem;
-  padding: .85rem 1rem;
-  border: 1px solid #d3cfc7;
-  border-radius: .85rem;
-  overflow: hidden;
-  background: white;
-  color: #151515;
-  font-size: 1.35rem;
-  font-weight: 800;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.font-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+.font-choice-grid button { min-height: 3.4rem; border: 1px solid #d3cfc7; border-radius: .85rem; padding: .55rem .7rem; overflow: hidden; background: white; color: #242321; font-size: 1.05rem; text-overflow: ellipsis; white-space: nowrap; }
+.font-choice-grid button[aria-checked="true"] { border-color: #171717; box-shadow: inset 0 0 0 2px #171717; background: #ece9e2; }
+.font-choice-grid button:focus-visible { outline: 3px solid rgb(21 21 21 / .2); outline-offset: 2px; }
 .compact-setting { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .compact-setting h2 { margin-bottom: .2rem; }
 .compact-setting p { margin: 0; color: #6d6961; font-size: .85rem; }
@@ -240,9 +269,9 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
 .color-grid-header h2 { margin: .2rem 0 0; font-size: 1.5rem; }
 .color-grid-header .eyebrow { color: #aaa; }
 .color-grid-header .dialog-close { top: 0; right: 0; background: #3a3a3a; color: white; }
-.color-grid { display: grid; grid-template-columns: repeat(12, 1fr); overflow: hidden; border: 1px solid rgb(255 255 255 / .18); border-radius: .8rem; }
-.color-choice { aspect-ratio: 1; min-width: 0; border: 0; border-right: 1px solid rgb(255 255 255 / .12); border-bottom: 1px solid rgb(255 255 255 / .12); padding: 0; }
-.color-choice:hover, .color-choice:focus-visible { position: relative; z-index: 1; outline: 3px solid white; outline-offset: -3px; transform: scale(.88); border-radius: .2rem; }
+.color-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; overflow: hidden; border: 1px solid rgb(255 255 255 / .18); border-radius: .8rem; background: transparent; }
+.color-choice { display: block; width: 100%; aspect-ratio: 1; min-width: 0; margin: 0; border: 0; border-radius: 0; padding: 0; appearance: none; box-shadow: none; }
+.color-choice:hover, .color-choice:focus-visible { position: relative; z-index: 1; outline: 3px solid white; outline-offset: -3px; }
 
 :fullscreen .scoreboard { min-height: 100vh; }
 
@@ -282,7 +311,7 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
   .settings-content { padding-inline: 1.1rem; }
   .team-settings { grid-template-columns: minmax(7rem, 1fr) 4.6rem 5.5rem; gap: .5rem; }
   .color-grid-dialog { width: calc(100% - 1rem); padding: 1rem; }
-  .color-grid { grid-template-columns: repeat(12, 1fr); }
+  .color-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 }
 
 @media (display-mode: fullscreen), (display-mode: standalone) {

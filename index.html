@@ -10,7 +10,7 @@
     <link rel="manifest" href="manifest.webmanifest?v=20260807-2" />
     <title>Settle the Score</title>
     <meta name="description" content="A fast, customizable two-team scorekeeper." />
-    <link rel="stylesheet" href="styles.css?v=20260807-4" />
+    <link rel="stylesheet" href="styles.css?v=20260807-8" />
   </head>
   <body>
     <main class="scoreboard" id="scoreboard" aria-label="Scoreboard">
@@ -29,7 +29,7 @@
       <nav class="utility-bar" aria-label="Scoreboard controls">
         <button id="fullscreen-button" aria-label="Enter full screen" title="Full screen">⛶</button>
         <button id="swap-button" aria-label="Swap teams" title="Swap teams">⇄</button>
-        <button id="settings-button" aria-label="Open settings" title="Settings">⚙</button>
+        <button id="settings-button" aria-label="Open settings" title="Settings"><span class="settings-glyph" aria-hidden="true">&#x2699;&#xFE0E;</span></button>
       </nav>
     </main>
 
@@ -83,22 +83,24 @@
 
           <section class="setting-group">
             <h2>Typography</h2>
-            <label>
-              <span>Font</span>
-              <select id="font-select">
-                <option value="system">Clean</option>
-                <option value="rounded">Rounded</option>
-                <option value="gotham">Gotham-like</option>
-                <option value="bebas">Bebas Neue</option>
-                <option value="bungee">Bungee</option>
-                <option value="playfair">Playfair Display</option>
-                <option value="serif">Classic</option>
-                <option value="mono">Mono</option>
-                <option value="condensed">Condensed</option>
-                <option value="metal">Death Metal</option>
-              </select>
-              <div class="font-preview" id="font-preview" aria-live="polite">Me 13 — You 7</div>
-            </label>
+            <input id="font-select" type="hidden" value="rounded" />
+            <div class="font-choice-grid" id="font-choice-grid" role="radiogroup" aria-label="Scoreboard font">
+              <button type="button" data-font="system">Clean</button>
+              <button type="button" data-font="rounded">Rounded</button>
+              <button type="button" data-font="gotham">Gotham-like</button>
+              <button type="button" data-font="bebas">Bebas Neue</button>
+              <button type="button" data-font="bungee">Bungee</button>
+              <button type="button" data-font="playfair">Playfair</button>
+              <button type="button" data-font="serif">Classic</button>
+              <button type="button" data-font="mono">Mono</button>
+              <button type="button" data-font="condensed">Condensed</button>
+              <button type="button" data-font="metal">Death Metal</button>
+              <button type="button" data-font="hollowe">Hollowe Genesis</button>
+              <button type="button" data-font="sounder">Sounder</button>
+              <button type="button" data-font="violent">Violent Brave</button>
+              <button type="button" data-font="midnight">Midnight Legacy</button>
+              <button type="button" data-font="zeus">Zeus Borne</button>
+            </div>
           </section>
 
 
@@ -149,6 +151,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260807-5"></script>
+    <script src="app.js?v=20260807-8"></script>
   </body>
 </html>

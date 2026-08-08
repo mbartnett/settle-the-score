@@ -17,7 +17,12 @@ const fontStacks = {
   serif: 'Georgia, "Times New Roman", serif',
   mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace',
   condensed: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif',
-  metal: '"Darkhorn", Impact, Haettenschweiler, fantasy'
+  metal: '"Darkhorn", Impact, Haettenschweiler, fantasy',
+  hollowe: '"Hollowe Genesis", Impact, fantasy',
+  sounder: '"Sounder", Impact, fantasy',
+  violent: '"Violent Brave", Impact, fantasy',
+  midnight: '"Midnight Legacy", Impact, fantasy',
+  zeus: '"Zeus Borne", Impact, fantasy'
 };
 
 function freshDefaults() {
@@ -88,7 +93,7 @@ function syncForm() {
   $("#team-two-text-color").value = state.teams[1].textColor;
   $("#font-select").value = state.font;
   $("#negative-toggle").checked = state.allowNegative;
-  updateFontPreview();
+  updateFontChoices();
 }
 
 function setColorButton(button, color) {
@@ -139,8 +144,10 @@ function buildColorGrid() {
   });
 }
 
-function updateFontPreview() {
-  $("#font-preview").style.fontFamily = fontStacks[$("#font-select").value] || fontStacks.rounded;
+function updateFontChoices() {
+  document.querySelectorAll("[data-font]").forEach((button) => {
+    button.setAttribute("aria-checked", String(button.dataset.font === $("#font-select").value));
+  });
 }
 
 function openSettings() {
@@ -187,7 +194,6 @@ document.querySelectorAll(".team").forEach((team, teamIndex) => {
     if (Math.abs(deltaY) >= 48 && Math.abs(deltaY) > Math.abs(deltaX)) {
       swipeHandled = true;
       changeScore(teamIndex, deltaY > 0 ? 1 : -1);
-      showToast(deltaY > 0 ? "+1" : "−1");
     }
   }, { passive: true });
 });
@@ -214,7 +220,14 @@ $("#swap-button").addEventListener("click", () => {
 });
 
 $("#settings-button").addEventListener("click", openSettings);
-$("#font-select").addEventListener("change", updateFontPreview);
+document.querySelectorAll("[data-font]").forEach((button) => {
+  button.style.fontFamily = fontStacks[button.dataset.font];
+  button.setAttribute("role", "radio");
+  button.addEventListener("click", () => {
+    $("#font-select").value = button.dataset.font;
+    updateFontChoices();
+  });
+});
 document.querySelectorAll(".color-picker-button").forEach((button) => {
   button.addEventListener("click", () => {
     activeColorButton = button;
