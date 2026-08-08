@@ -55,7 +55,13 @@
                 <span>Color</span>
                 <input id="team-one-color" type="color" />
               </label>
-              <div class="swatches" data-color-target="team-one-color" aria-label="First team color presets"></div>
+              <label class="text-color-field">
+                <span>Text</span>
+                <select id="team-one-text-color">
+                  <option value="#fdfbf7">White</option>
+                  <option value="#111111">Black</option>
+                </select>
+              </label>
             </div>
             <div class="team-settings">
               <label>
@@ -66,33 +72,33 @@
                 <span>Color</span>
                 <input id="team-two-color" type="color" />
               </label>
-              <div class="swatches" data-color-target="team-two-color" aria-label="Second team color presets"></div>
+              <label class="text-color-field">
+                <span>Text</span>
+                <select id="team-two-text-color">
+                  <option value="#fdfbf7">White</option>
+                  <option value="#111111">Black</option>
+                </select>
+              </label>
             </div>
           </section>
 
           <section class="setting-group">
-            <h2>Type & layout</h2>
+            <h2>Typography</h2>
             <label>
               <span>Font</span>
               <select id="font-select">
                 <option value="system">Clean</option>
                 <option value="rounded">Rounded</option>
                 <option value="gotham">Gotham-like</option>
+                <option value="bebas">Bebas Neue</option>
+                <option value="bungee">Bungee</option>
+                <option value="playfair">Playfair Display</option>
                 <option value="serif">Classic</option>
                 <option value="mono">Mono</option>
                 <option value="condensed">Condensed</option>
                 <option value="metal">Death Metal</option>
               </select>
-              <div class="font-preview" id="font-preview">Me 13 — You 7</div>
             </label>
-            <fieldset>
-              <legend>Screen direction</legend>
-              <div class="segmented-control">
-                <label><input type="radio" name="layout" value="auto" /><span>Auto</span></label>
-                <label><input type="radio" name="layout" value="stacked" /><span>Stacked</span></label>
-                <label><input type="radio" name="layout" value="side-by-side" /><span>Side by side</span></label>
-              </div>
-            </fieldset>
           </section>
 
 
