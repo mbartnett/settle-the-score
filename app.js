@@ -1,0 +1,141 @@
+const defaults = {
+  teams: [
+    { name: "Me", score: 0, color: "#ff3b45" },
+    { name: "You", score: 0, color: "#1188ef" }
+  ],
+  font: "rounded",
+  layout: "auto",
+  allowNegative: false
+};
+
+const fontStacks = {
+  system: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  rounded: 'ui-rounded, "SF Pro Rounded", "Avenir Next", system-ui, sans-serif',
+  serif: 'Georgia, "Times New Roman", serif',
+  mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace'
+};
+
+const saved = JSON.parse(localStorage.getItem("split-score-settings") || "null");
+let state = saved ? { ...defaults, ...saved, teams: saved.teams || defaults.teams } : structuredClone(defaults);
+
+const $ = (selector) => document.querySelector(selector);
+const scoreboard = $("#scoreboard");
+const modal = $("#modal-backdrop");
+const toast = $("#toast");
+let toastTimer;
+
+function save() {
+  localStorage.setItem("split-score-settings", JSON.stringify(state));
+}
+
+function render() {
+  state.teams.forEach((team, index) => {
+    $(`#team-${index ? "two" : "one"}-name`).textContent = team.name;
+    $(`#team-${index ? "two" : "one"}-score`).textContent = team.score;
+    $(`#team-${index ? "two" : "one"}-score`).setAttribute("aria-label", `Add one point to ${team.name}`);
+  });
+  document.documentElement.style.setProperty("--team-one", state.teams[0].color);
+  document.documentElement.style.setProperty("--team-two", state.teams[1].color);
+  document.documentElement.style.setProperty("--font", fontStacks[state.font]);
+  scoreboard.classList.toggle("layout-stacked", state.layout === "stacked");
+  scoreboard.classList.toggle("layout-side-by-side", state.layout === "side-by-side");
+  document.querySelector('meta[name="theme-color"]').content = state.teams[0].color;
+  save();
+}
+
+function changeScore(teamIndex, amount) {
+  const next = state.teams[teamIndex].score + amount;
+  state.teams[teamIndex].score = state.allowNegative ? next : Math.max(0, next);
+  render();
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 1600);
+}
+
+function syncForm() {
+  $("#team-one-input").value = state.teams[0].name;
+  $("#team-two-input").value = state.teams[1].name;
+  $("#team-one-color").value = state.teams[0].color;
+  $("#team-two-color").value = state.teams[1].color;
+  $("#font-select").value = state.font;
+  $("#negative-toggle").checked = state.allowNegative;
+  document.querySelector(`input[name="layout"][value="${state.layout}"]`).checked = true;
+}
+
+function openSettings() {
+  syncForm();
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+  $("#team-one-input").focus();
+}
+
+function closeSettings() {
+  modal.hidden = true;
+  document.body.style.overflow = "hidden";
+  $("#settings-button").focus();
+}
+
+function applyForm() {
+  state.teams[0].name = $("#team-one-input").value.trim() || "Team 1";
+  state.teams[1].name = $("#team-two-input").value.trim() || "Team 2";
+  state.teams[0].color = $("#team-one-color").value;
+  state.teams[1].color = $("#team-two-color").value;
+  state.font = $("#font-select").value;
+  state.allowNegative = $("#negative-toggle").checked;
+  state.layout = document.querySelector('input[name="layout"]:checked').value;
+  render();
+}
+
+$("#team-one-score").addEventListener("click", () => changeScore(0, 1));
+$("#team-two-score").addEventListener("click", () => changeScore(1, 1));
+document.querySelectorAll("[data-change]").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    changeScore(Number(button.dataset.team), Number(button.dataset.change));
+  });
+});
+
+$("#reset-button").addEventListener("click", () => {
+  state.teams.forEach((team) => { team.score = 0; });
+  render();
+  showToast("Scores reset");
+});
+
+$("#swap-button").addEventListener("click", () => {
+  state.teams.reverse();
+  render();
+  showToast("Teams swapped");
+});
+
+$("#settings-button").addEventListener("click", openSettings);
+$("#close-settings").addEventListener("click", closeSettings);
+$("#done-settings").addEventListener("click", () => {
+  applyForm();
+  closeSettings();
+  showToast("Settings saved");
+});
+
+$("#restore-defaults").addEventListener("click", () => {
+  state = structuredClone(defaults);
+  syncForm();
+  render();
+  showToast("Defaults restored");
+});
+
+modal.addEventListener("click", (event) => {
+  if (event.target === modal) closeSettings();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !modal.hidden) closeSettings();
+  if (!modal.hidden || ["INPUT", "SELECT"].includes(document.activeElement.tagName)) return;
+  if (event.key === "ArrowLeft") changeScore(0, event.shiftKey ? -1 : 1);
+  if (event.key === "ArrowRight") changeScore(1, event.shiftKey ? -1 : 1);
+  if (event.key.toLowerCase() === "r") $("#reset-button").click();
+});
+
+render();
