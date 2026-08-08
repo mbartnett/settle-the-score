@@ -10,7 +10,7 @@
     <link rel="manifest" href="manifest.webmanifest?v=20260807-2" />
     <title>Settle the Score</title>
     <meta name="description" content="A fast, customizable two-team scorekeeper." />
-    <link rel="stylesheet" href="styles.css?v=20260807-2" />
+    <link rel="stylesheet" href="styles.css?v=20260807-4" />
   </head>
   <body>
     <main class="scoreboard" id="scoreboard" aria-label="Scoreboard">
@@ -37,8 +37,7 @@
       <section class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
         <header class="settings-header">
           <div>
-            <p class="eyebrow">Make it yours</p>
-            <h1 id="settings-title">Scoreboard settings</h1>
+            <h1 id="settings-title">Settle the Score Settings</h1>
           </div>
           <button class="close-button" id="close-settings" aria-label="Close settings">×</button>
         </header>
@@ -51,10 +50,10 @@
                 <span>First team</span>
                 <input id="team-one-input" type="text" maxlength="18" autocomplete="off" />
               </label>
-              <label class="color-field">
+              <div class="color-field">
                 <span>Color</span>
-                <input id="team-one-color" type="color" />
-              </label>
+                <button id="team-one-color" class="color-picker-button" type="button" aria-label="Choose first team color"></button>
+              </div>
               <label class="text-color-field">
                 <span>Text</span>
                 <select id="team-one-text-color">
@@ -68,10 +67,10 @@
                 <span>Second team</span>
                 <input id="team-two-input" type="text" maxlength="18" autocomplete="off" />
               </label>
-              <label class="color-field">
+              <div class="color-field">
                 <span>Color</span>
-                <input id="team-two-color" type="color" />
-              </label>
+                <button id="team-two-color" class="color-picker-button" type="button" aria-label="Choose second team color"></button>
+              </div>
               <label class="text-color-field">
                 <span>Text</span>
                 <select id="team-two-text-color">
@@ -98,6 +97,7 @@
                 <option value="condensed">Condensed</option>
                 <option value="metal">Death Metal</option>
               </select>
+              <div class="font-preview" id="font-preview" aria-live="polite">Me 13 — You 7</div>
             </label>
           </section>
 
@@ -137,7 +137,18 @@
       <button class="primary-button install-done" id="install-done">Got it</button>
     </dialog>
 
+    <dialog class="color-grid-dialog" id="color-grid-dialog" aria-labelledby="color-grid-title">
+      <header class="color-grid-header">
+        <div>
+          <p class="eyebrow">Team color</p>
+          <h2 id="color-grid-title">Choose a color</h2>
+        </div>
+        <button class="dialog-close" id="close-color-grid" aria-label="Close color chooser">×</button>
+      </header>
+      <div class="color-grid" id="color-grid" role="grid" aria-label="Color palette"></div>
+    </dialog>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=20260807-2"></script>
+    <script src="app.js?v=20260807-5"></script>
   </body>
 </html>

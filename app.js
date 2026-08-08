@@ -44,6 +44,7 @@ const scoreboard = $("#scoreboard");
 const modal = $("#modal-backdrop");
 const toast = $("#toast");
 let toastTimer;
+let activeColorButton = null;
 
 function save() {
   localStorage.setItem("split-score-settings", JSON.stringify(state));
@@ -81,19 +82,72 @@ function showToast(message) {
 function syncForm() {
   $("#team-one-input").value = state.teams[0].name;
   $("#team-two-input").value = state.teams[1].name;
-  $("#team-one-color").value = state.teams[0].color;
-  $("#team-two-color").value = state.teams[1].color;
+  setColorButton($("#team-one-color"), state.teams[0].color);
+  setColorButton($("#team-two-color"), state.teams[1].color);
   $("#team-one-text-color").value = state.teams[0].textColor;
   $("#team-two-text-color").value = state.teams[1].textColor;
   $("#font-select").value = state.font;
   $("#negative-toggle").checked = state.allowNegative;
+  updateFontPreview();
+}
+
+function setColorButton(button, color) {
+  button.value = color;
+  button.style.backgroundColor = color;
+  button.setAttribute("aria-label", `${button.id === "team-one-color" ? "First" : "Second"} team color ${color}`);
+}
+
+function hslToHex(hue, saturation, lightness) {
+  const s = saturation / 100;
+  const l = lightness / 100;
+  const chroma = (1 - Math.abs(2 * l - 1)) * s;
+  const section = hue / 60;
+  const x = chroma * (1 - Math.abs(section % 2 - 1));
+  const [r1, g1, b1] = section < 1 ? [chroma, x, 0]
+    : section < 2 ? [x, chroma, 0]
+      : section < 3 ? [0, chroma, x]
+        : section < 4 ? [0, x, chroma]
+          : section < 5 ? [x, 0, chroma]
+            : [chroma, 0, x];
+  const m = l - chroma / 2;
+  return `#${[r1, g1, b1].map((channel) => Math.round((channel + m) * 255).toString(16).padStart(2, "0")).join("")}`;
+}
+
+function buildColorGrid() {
+  const grid = $("#color-grid");
+  const colors = Array.from({ length: 12 }, (_, index) => {
+    const value = Math.round(255 - (index * 255 / 11)).toString(16).padStart(2, "0");
+    return `#${value}${value}${value}`;
+  });
+  [20, 30, 40, 50, 60, 70, 82].forEach((lightness) => {
+    [190, 215, 245, 275, 320, 355, 20, 38, 50, 62, 78, 100].forEach((hue) => {
+      colors.push(hslToHex(hue, lightness < 35 ? 88 : 92, lightness));
+    });
+  });
+  colors.forEach((color) => {
+    const choice = document.createElement("button");
+    choice.type = "button";
+    choice.className = "color-choice";
+    choice.style.backgroundColor = color;
+    choice.setAttribute("aria-label", `Choose ${color}`);
+    choice.addEventListener("click", () => {
+      setColorButton(activeColorButton, color);
+      $("#color-grid-dialog").close();
+      activeColorButton.focus();
+    });
+    grid.append(choice);
+  });
+}
+
+function updateFontPreview() {
+  $("#font-preview").style.fontFamily = fontStacks[$("#font-select").value] || fontStacks.rounded;
 }
 
 function openSettings() {
   syncForm();
   modal.hidden = false;
   document.body.style.overflow = "hidden";
-  $("#team-one-input").focus();
+  $("#close-settings").focus();
 }
 
 function closeSettings() {
@@ -160,6 +214,17 @@ $("#swap-button").addEventListener("click", () => {
 });
 
 $("#settings-button").addEventListener("click", openSettings);
+$("#font-select").addEventListener("change", updateFontPreview);
+document.querySelectorAll(".color-picker-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    activeColorButton = button;
+    $("#color-grid-dialog").showModal();
+  });
+});
+$("#close-color-grid").addEventListener("click", () => {
+  $("#color-grid-dialog").close();
+  activeColorButton?.focus();
+});
 $("#fullscreen-button").addEventListener("click", async () => {
   if (document.fullscreenElement) {
     await document.exitFullscreen();
@@ -214,4 +279,5 @@ document.addEventListener("keydown", (event) => {
   if (event.key.toLowerCase() === "r") $("#reset-button").click();
 });
 
+buildColorGrid();
 render();
