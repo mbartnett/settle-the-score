@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#ff3b45" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Split Score</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <title>Settle the Score</title>
     <meta name="description" content="A fast, customizable two-team scorekeeper." />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="scoreboard" id="scoreboard" aria-label="Scoreboard">
       <section class="team team-one" id="team-one" aria-label="First team">
+        <span class="swipe-hint" aria-hidden="true">Swipe ↑ add · ↓ subtract</span>
         <p class="team-name" id="team-one-name">Me</p>
         <button class="score" id="team-one-score" aria-label="Add one point to Me">0</button>
         <div class="score-actions" aria-label="First team score controls">
@@ -21,6 +25,7 @@
       </section>
 
       <section class="team team-two" id="team-two" aria-label="Second team">
+        <span class="swipe-hint" aria-hidden="true">Swipe ↑ add · ↓ subtract</span>
         <p class="team-name" id="team-two-name">You</p>
         <button class="score" id="team-two-score" aria-label="Add one point to You">0</button>
         <div class="score-actions" aria-label="Second team score controls">
@@ -32,6 +37,7 @@
       <button class="reset-button" id="reset-button" aria-label="Reset both scores" title="Reset scores">↻</button>
 
       <nav class="utility-bar" aria-label="Scoreboard controls">
+        <button id="fullscreen-button" aria-label="Enter full screen" title="Full screen">⛶</button>
         <button id="swap-button" aria-label="Swap teams" title="Swap teams">⇄</button>
         <button id="settings-button" aria-label="Open settings" title="Settings">⚙</button>
       </nav>
@@ -59,6 +65,7 @@
                 <span>Color</span>
                 <input id="team-one-color" type="color" />
               </label>
+              <div class="swatches" data-color-target="team-one-color" aria-label="First team color presets"></div>
             </div>
             <div class="team-settings">
               <label>
@@ -69,6 +76,7 @@
                 <span>Color</span>
                 <input id="team-two-color" type="color" />
               </label>
+              <div class="swatches" data-color-target="team-two-color" aria-label="Second team color presets"></div>
             </div>
           </section>
 
@@ -81,7 +89,10 @@
                 <option value="rounded">Rounded</option>
                 <option value="serif">Classic</option>
                 <option value="mono">Mono</option>
+                <option value="condensed">Condensed</option>
+                <option value="metal">Death Metal</option>
               </select>
+              <div class="font-preview" id="font-preview">Me 13 — You 7</div>
             </label>
             <fieldset>
               <legend>Screen direction</legend>
@@ -91,6 +102,14 @@
                 <label><input type="radio" name="layout" value="side-by-side" /><span>Side by side</span></label>
               </div>
             </fieldset>
+          </section>
+
+          <section class="metal-callout">
+            <div>
+              <p class="eyebrow">Instant theme</p>
+              <h2>Turn the volume all the way up.</h2>
+            </div>
+            <button id="metal-button">Make it Metal</button>
           </section>
 
           <section class="setting-group compact-setting">
@@ -111,6 +130,33 @@
         </footer>
       </section>
     </div>
+
+    <dialog class="metal-dialog" id="metal-dialog">
+      <div class="metal-mark" aria-hidden="true">☠</div>
+      <p class="eyebrow">Warning: heavy</p>
+      <h2>Make it Metal?</h2>
+      <p>This switches to the Death Metal font with a black-and-blood-red color scheme. You can still customize everything afterward.</p>
+      <div class="dialog-actions">
+        <button id="cancel-metal" class="secondary-button">Not yet</button>
+        <button id="confirm-metal" class="metal-confirm">Unleash it</button>
+      </div>
+    </dialog>
+
+    <dialog class="install-dialog" id="install-dialog">
+      <button class="dialog-close" id="close-install" aria-label="Close">×</button>
+      <div class="app-icon" aria-hidden="true">⛶</div>
+      <p class="eyebrow">App-style display</p>
+      <h2>Use the whole screen</h2>
+      <div id="install-instructions">
+        <p>Your browser does not allow this page to hide its controls directly.</p>
+        <ol>
+          <li>Open the browser’s <strong>Share</strong> menu.</li>
+          <li>Choose <strong>Add to Home Screen</strong> or <strong>Install app</strong>.</li>
+          <li>Open Settle the Score from its new app icon.</li>
+        </ol>
+      </div>
+      <button class="primary-button install-done" id="install-done">Got it</button>
+    </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="app.js"></script>

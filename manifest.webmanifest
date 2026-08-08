@@ -1,0 +1,11 @@
+{
+  "name": "Settle the Score",
+  "short_name": "Settle Score",
+  "description": "A fast, customizable two-team scorekeeper.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#111111",
+  "theme_color": "#ff3b45"
+}

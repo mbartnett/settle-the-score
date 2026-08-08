@@ -12,8 +12,12 @@ const fontStacks = {
   system: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   rounded: 'ui-rounded, "SF Pro Rounded", "Avenir Next", system-ui, sans-serif',
   serif: 'Georgia, "Times New Roman", serif',
-  mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace'
+  mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace',
+  condensed: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif',
+  metal: 'Impact, Haettenschweiler, "Arial Narrow Bold", fantasy'
 };
+
+const palette = ["#ff3b45", "#1188ef", "#f39c12", "#8e44ad", "#16a085", "#ef6c35", "#e91e63", "#202124", "#f4f0e8", "#76000b"];
 
 const saved = JSON.parse(localStorage.getItem("split-score-settings") || "null");
 let state = saved ? { ...defaults, ...saved, teams: saved.teams || defaults.teams } : structuredClone(defaults);
@@ -39,6 +43,7 @@ function render() {
   document.documentElement.style.setProperty("--font", fontStacks[state.font]);
   scoreboard.classList.toggle("layout-stacked", state.layout === "stacked");
   scoreboard.classList.toggle("layout-side-by-side", state.layout === "side-by-side");
+  scoreboard.classList.toggle("font-metal", state.font === "metal");
   document.querySelector('meta[name="theme-color"]').content = state.teams[0].color;
   save();
 }
@@ -64,6 +69,12 @@ function syncForm() {
   $("#font-select").value = state.font;
   $("#negative-toggle").checked = state.allowNegative;
   document.querySelector(`input[name="layout"][value="${state.layout}"]`).checked = true;
+  updateFontPreview();
+}
+
+function updateFontPreview() {
+  $("#font-preview").style.fontFamily = fontStacks[$("#font-select").value];
+  $("#font-preview").classList.toggle("font-metal", $("#font-select").value === "metal");
 }
 
 function openSettings() {
@@ -99,6 +110,51 @@ document.querySelectorAll("[data-change]").forEach((button) => {
   });
 });
 
+document.querySelectorAll(".swatches").forEach((container) => {
+  palette.forEach((color) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "swatch";
+    button.style.background = color;
+    button.setAttribute("aria-label", `Use color ${color}`);
+    button.addEventListener("click", () => {
+      $(`#${container.dataset.colorTarget}`).value = color;
+    });
+    container.append(button);
+  });
+});
+
+let touchStartY = 0;
+let touchStartX = 0;
+let swipeHandled = false;
+document.querySelectorAll(".team").forEach((team, teamIndex) => {
+  team.addEventListener("touchstart", (event) => {
+    const touch = event.changedTouches[0];
+    touchStartY = touch.clientY;
+    touchStartX = touch.clientX;
+    swipeHandled = false;
+  }, { passive: true });
+  team.addEventListener("touchend", (event) => {
+    const touch = event.changedTouches[0];
+    const deltaY = touchStartY - touch.clientY;
+    const deltaX = touchStartX - touch.clientX;
+    if (Math.abs(deltaY) >= 48 && Math.abs(deltaY) > Math.abs(deltaX)) {
+      swipeHandled = true;
+      changeScore(teamIndex, deltaY > 0 ? 1 : -1);
+      showToast(deltaY > 0 ? "+1" : "−1");
+    }
+  }, { passive: true });
+});
+
+document.querySelectorAll(".score").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    if (swipeHandled) {
+      event.stopImmediatePropagation();
+      swipeHandled = false;
+    }
+  }, true);
+});
+
 $("#reset-button").addEventListener("click", () => {
   state.teams.forEach((team) => { team.score = 0; });
   render();
@@ -112,6 +168,35 @@ $("#swap-button").addEventListener("click", () => {
 });
 
 $("#settings-button").addEventListener("click", openSettings);
+$("#fullscreen-button").addEventListener("click", async () => {
+  if (document.fullscreenElement) {
+    await document.exitFullscreen();
+    return;
+  }
+
+  if (document.documentElement.requestFullscreen) {
+    try {
+      await document.documentElement.requestFullscreen({ navigationUI: "hide" });
+      return;
+    } catch (error) {
+      // Some mobile browsers expose the API but still reject page fullscreen.
+    }
+  }
+
+  $("#install-dialog").showModal();
+});
+
+document.addEventListener("fullscreenchange", () => {
+  const button = $("#fullscreen-button");
+  const active = Boolean(document.fullscreenElement);
+  button.textContent = active ? "⊡" : "⛶";
+  button.setAttribute("aria-label", active ? "Exit full screen" : "Enter full screen");
+  button.title = active ? "Exit full screen" : "Full screen";
+});
+
+$("#close-install").addEventListener("click", () => $("#install-dialog").close());
+$("#install-done").addEventListener("click", () => $("#install-dialog").close());
+$("#font-select").addEventListener("change", updateFontPreview);
 $("#close-settings").addEventListener("click", closeSettings);
 $("#done-settings").addEventListener("click", () => {
   applyForm();
@@ -124,6 +209,18 @@ $("#restore-defaults").addEventListener("click", () => {
   syncForm();
   render();
   showToast("Defaults restored");
+});
+
+$("#metal-button").addEventListener("click", () => $("#metal-dialog").showModal());
+$("#cancel-metal").addEventListener("click", () => $("#metal-dialog").close());
+$("#confirm-metal").addEventListener("click", () => {
+  state.font = "metal";
+  state.teams[0].color = "#111111";
+  state.teams[1].color = "#76000b";
+  render();
+  syncForm();
+  $("#metal-dialog").close();
+  showToast("Metal mode unleashed");
 });
 
 modal.addEventListener("click", (event) => {
