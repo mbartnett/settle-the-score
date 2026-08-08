@@ -282,10 +282,28 @@ input[type="text"]:focus, select:focus { border-color: #151515; box-shadow: 0 0 
   text-shadow: .035em .05em 0 rgb(0 0 0 / .65);
 }
 
+.font-extreme .team {
+  row-gap: clamp(2.5rem, 7vh, 7rem);
+}
+
+.font-extreme .team-name {
+  margin-bottom: 0;
+  font-size: clamp(2.2rem, 5vw, 5rem);
+  line-height: 1.15;
+}
+
+.font-extreme .score {
+  font-size: clamp(8rem, 22vw, 22rem);
+  line-height: 1;
+}
+
 @media (orientation: portrait) {
   .scoreboard { flex-direction: column; }
   .team-name { max-width: 88vw; font-size: clamp(2.25rem, 10vw, 5rem); }
   .score { font-size: clamp(8rem, 34vw, 18rem); }
+  .font-extreme .team { row-gap: clamp(1.5rem, 4vh, 3.5rem); }
+  .font-extreme .team-name { font-size: clamp(2rem, 8vw, 4rem); }
+  .font-extreme .score { font-size: clamp(7rem, 28vw, 14rem); }
   .utility-bar {
     top: max(.75rem, env(safe-area-inset-top));
     right: max(.75rem, env(safe-area-inset-right));

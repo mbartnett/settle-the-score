@@ -67,6 +67,7 @@ function render() {
   document.documentElement.style.setProperty("--team-two-text", state.teams[1].textColor);
   document.documentElement.style.setProperty("--font", fontStacks[state.font]);
   scoreboard.classList.toggle("font-metal", state.font === "metal");
+  scoreboard.classList.toggle("font-extreme", ["metal", "hollowe", "sounder", "violent", "midnight", "zeus"].includes(state.font));
   document.querySelector('meta[name="theme-color"]').content = state.teams[0].color;
   save();
 }
@@ -210,7 +211,6 @@ document.querySelectorAll(".score").forEach((button) => {
 $("#reset-button").addEventListener("click", () => {
   state.teams.forEach((team) => { team.score = 0; });
   render();
-  showToast("Scores reset");
 });
 
 $("#swap-button").addEventListener("click", () => {
