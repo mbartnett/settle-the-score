@@ -1,4 +1,4 @@
-# Split Score
+# Settle the Score
 
 A lightweight, customizable two-team scorekeeper built for GitHub Pages.
 
