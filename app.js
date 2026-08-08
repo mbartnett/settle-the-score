@@ -1,7 +1,7 @@
 const defaults = {
   teams: [
-    { name: "Me", score: 0, color: "#ff3b45", textColor: "#fdfbf7" },
-    { name: "You", score: 0, color: "#1188ef", textColor: "#fdfbf7" }
+    { name: "Me", score: 0, color: "#111111", textColor: "#fdfbf7" },
+    { name: "You", score: 0, color: "#fdfbf7", textColor: "#111111" }
   ],
   font: "rounded",
   allowNegative: false
@@ -10,13 +10,8 @@ const defaults = {
 const fontStacks = {
   system: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   rounded: 'ui-rounded, "SF Pro Rounded", "Avenir Next", system-ui, sans-serif',
-  gotham: '"Montserrat", "Avenir Next", "Century Gothic", system-ui, sans-serif',
-  bebas: '"Bebas Neue", Impact, sans-serif',
-  bungee: '"Bungee", Impact, sans-serif',
-  playfair: '"Playfair Display", Georgia, serif',
-  serif: 'Georgia, "Times New Roman", serif',
   mono: 'ui-monospace, "SFMono-Regular", Consolas, monospace',
-  condensed: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif',
+  gotham: '"Gotham", "Avenir Next", system-ui, sans-serif',
   metal: '"Darkhorn", Impact, Haettenschweiler, fantasy',
   hollowe: '"Hollowe Genesis", Impact, fantasy',
   sounder: '"Sounder", Impact, fantasy',
@@ -43,6 +38,13 @@ let state = saved && Array.isArray(saved.teams)
   ? { ...freshDefaults(), ...saved }
   : freshDefaults();
 state.teams = defaults.teams.map((fallback, index) => ({ ...fallback, ...(state.teams[index] || {}) }));
+if (saved?.teams?.[0]?.color === "#ff3b45" && saved?.teams?.[1]?.color === "#1188ef") {
+  state.teams[0].color = defaults.teams[0].color;
+  state.teams[0].textColor = defaults.teams[0].textColor;
+  state.teams[1].color = defaults.teams[1].color;
+  state.teams[1].textColor = defaults.teams[1].textColor;
+}
+if (!fontStacks[state.font]) state.font = defaults.font;
 
 const $ = (selector) => document.querySelector(selector);
 const scoreboard = $("#scoreboard");
@@ -135,7 +137,6 @@ function buildColorGrid() {
     choice.type = "button";
     choice.className = "color-choice";
     choice.style.backgroundColor = color;
-    choice.style.color = color;
     choice.setAttribute("aria-label", `Choose ${color}`);
     choice.addEventListener("click", () => {
       setColorButton(activeColorButton, color);
